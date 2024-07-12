@@ -7,7 +7,6 @@ from api import this, that
 # Define the headers for the API request
 headers = {
     "x-rapidapi-key": this,
-    "x-rapidapi-host": "meteostat.p.rapidapi.com"
 }
 
 # Function to get daily average temperature with retry mechanism
