@@ -20,6 +20,7 @@ def get_daily_temperature(lat, lon, start, end):
         "x-rapidapi-key": this,
     }
     response = requests.get(that, headers=headers, params=querystring)
+    print (response)
     return response.json()
 
 # Automatically geolocate the connecting IP
@@ -37,10 +38,13 @@ daily_data = get_daily_temperature(latitude, longitude, start_date, end_date)
 if daily_data.get("data"):
     for day_data in daily_data["data"]:
         date = day_data.get("date")
+        date_obj = datetime.strptime(date, '%Y-%m-%d')
+        formatted_date = date_obj.strftime('%d/%m/%Y')
         avg_temp = day_data.get("tavg")
+        precipitation = day_data.get ("prcp") or 0
         if avg_temp is not None:
-            print(f"Date: {date}, Average Temperature: {avg_temp}°C")
+            print(f"Date: {formatted_date}, Average Temperature: {avg_temp}°C, Percepitation: {precipitation} mm")
         else:
-            print(f"Date: {date}, No average temperature data available")
+            print(f"Date: {formatted_date}, No average temperature data available")
 else:
     print(f"No temperature data available for the date range {start_date} to {end_date}")
