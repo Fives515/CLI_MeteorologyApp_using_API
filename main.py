@@ -1,4 +1,5 @@
 import requests
+from suntime import Sun
 from datetime import datetime, timedelta
 from api import this, that
 
@@ -10,6 +11,14 @@ def get_current_location():
     longitude = float(loc[1])
     city = data.get("city", "Unknown")
     return latitude, longitude, city
+
+def extract_time(datetime_string):
+    # Parse the input string to a datetime object
+    datetime_obj = datetime.strptime(datetime_string, '%Y-%m-%d %H:%M:%S')
+    # Extract the time part and format it as "HH:MM:SS"
+    time_part = datetime_obj.strftime('%H:%M:%S')
+    return time_part
+
 
 
 # Function to get daily average temperature with retry mechanism
@@ -24,6 +33,8 @@ def get_daily_temperature(lat, lon, start, end):
 
 # Automatically geolocate the connecting IP
 latitude, longitude, city = get_current_location()
+print(latitude, longitude)
+sun = Sun(latitude, longitude)
 
 # Get the current date
 current_date = datetime.now()
@@ -42,13 +53,35 @@ if daily_data.get("data"):
         avg_temp = day_data.get("tavg")
         max_temp = day_data.get("tmax")
         min_temp = day_data.get("tmin")
+        wind_gust = day_data.get("wpgt")
+        wind_direction = day_data.get ("wdir")
+        wind_speed = day_data.get("wspd")
+        sea_level_air_pressure = day_data.get("pres")
+        abd = datetime.date(date_obj)
+        sunrise= sun.get_local_sunrise_time(abd)
+        sunset = sun.get_local_sunset_time(abd)
+        
+        #Extract the time and calculate it
+        datetime_string = str(sunrise)
+        time_sunrise = extract_time(datetime_string)
+        datetime_string = str(sunset)
+        time_sunset = extract_time(datetime_string)
+        format = "%H:%M:%S"
+
+        tdelta = datetime.strptime(time_sunset, format) - datetime.strptime(time_sunrise,format)
+
+        sun_time = day_data.get("tsun") or 0
+        
         precipitation = day_data.get ("prcp") or 0
         if avg_temp is not None:
             print(f"Date: {formatted_date}")
             print(f"Average Temperature: {avg_temp}°C")
             print(f"Minimum Temperature: {min_temp}°C")
             print(f"Maximum Temperature: {max_temp}°C")
-            print(f"Percepitation: {precipitation} mm\n\n")
+            print(f"Maximum wind gust: {wind_gust} km/h")
+            print(f"The wind will be coming from {wind_direction}° with an average wind speed: {wind_speed} km/h")
+            print(f"The sun will rise at {time_sunrise} and set at {time_sunset} which will give you {tdelta} suntime")
+            print(f"Percepitation: {precipitation} mm\n")
         else:
             print(f"Date: {formatted_date}, No average temperature data available")
 else:
