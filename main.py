@@ -12,14 +12,10 @@ def get_current_location():
     city = data.get("city", "Unknown")
     return latitude, longitude, city
 
-def extract_time(datetime_string):
-    # Parse the input string to a datetime object
-    datetime_obj = datetime.strptime(datetime_string, '%Y-%m-%d %H:%M:%S')
-    # Extract the time part and format it as "HH:MM:SS"
-    time_part = datetime_obj.strftime('%H:%M:%S')
-    return time_part
-
-
+# Automatically geolocate the connecting IP
+latitude, longitude, city = get_current_location()
+print(latitude, longitude)
+sun = Sun(latitude, longitude)
 
 # Function to get daily average temperature with retry mechanism
 def get_daily_temperature(lat, lon, start, end):
@@ -31,10 +27,12 @@ def get_daily_temperature(lat, lon, start, end):
     response = requests.get(that, headers=headers, params=querystring)
     return response.json()
 
-# Automatically geolocate the connecting IP
-latitude, longitude, city = get_current_location()
-print(latitude, longitude)
-sun = Sun(latitude, longitude)
+def extract_time(datetime_string):
+    # Parse the input string to a datetime object
+    datetime_obj = datetime.strptime(datetime_string, '%Y-%m-%d %H:%M:%S')
+    # Extract the time part and format it as "HH:MM:SS"
+    time_part = datetime_obj.strftime('%H:%M:%S')
+    return time_part
 
 # Get the current date
 current_date = datetime.now()
@@ -43,8 +41,10 @@ current_date = datetime.now()
 end_date = (current_date + timedelta(days=6)).strftime("%Y-%m-%d")   # week range for weekly data for each day
 start_date = current_date.strftime('%Y-%m-%d')
 print(f"City: {city}")
+
 # Retry mechanism for fetching temperature data
 daily_data = get_daily_temperature(latitude, longitude, start_date, end_date)
+
 if daily_data.get("data"):
     for day_data in daily_data["data"]:
         date = day_data.get("date")
@@ -67,10 +67,7 @@ if daily_data.get("data"):
         datetime_string = str(sunset)
         time_sunset = extract_time(datetime_string)
         format = "%H:%M:%S"
-
         tdelta = datetime.strptime(time_sunset, format) - datetime.strptime(time_sunrise,format)
-
-        sun_time = day_data.get("tsun") or 0
         
         precipitation = day_data.get ("prcp") or 0
         if avg_temp is not None:
