@@ -56,19 +56,18 @@ def direction (wind_direction):
     elif wind_direction == 270:
         return "West"
     elif wind_direction > 0 or wind_direction < 90:
-        return "NE"
+        return "North East"
     elif wind_direction > 90 or wind_direction < 180:
-        return "SE"
+        return "South East"
     elif wind_direction > 180 or wind_direction < 270:
-        return "SW"
+        return "South West"
     elif wind_direction > 270 or wind_direction < 360:
-        return "NW"
+        return "North West"
     else:   
-        return "gay"
+        return wind_direction
 
 if daily_data.get("data"):
     for day_data in daily_data["data"]:
-        print (day_data)
         date = day_data.get("date")
         date_obj = datetime.strptime(date, '%Y-%m-%d')
         formatted_date = date_obj.strftime('%d/%m/%Y')
@@ -78,12 +77,11 @@ if daily_data.get("data"):
         wind_gust = day_data.get("wpgt")
         wind_speed = day_data.get("wspd")
         sea_level_air_pressure = day_data.get("pres")
-        abd = datetime.date(date_obj)
-        sunrise= sun.get_local_sunrise_time(abd)
-        sunset = sun.get_local_sunset_time(abd)
-        
+        time = datetime.date(date_obj)
+        sunrise= sun.get_local_sunrise_time(time)
+        sunset = sun.get_local_sunset_time(time)
         wind_int =direction(day_data.get ("wdir"))
-        print (wind_int)
+        
         #Extract the time and calculate it
         datetime_string = str(sunrise)
         time_sunrise = extract_time(datetime_string)
