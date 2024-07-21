@@ -1,20 +1,39 @@
 import requests
 from suntime import Sun
 from datetime import datetime, timedelta
-from api import this, that
+from api_list import this, that, key
 
 def get_current_location():
-    response = requests.get("https://ipinfo.io")
+    url = f'https://www.googleapis.com/geolocation/v1/geolocate?key={key}'
+    
+    # Send POST request to the API
+    response = requests.post(url, json={"considerIp": "true"})
+    location_data = response.json()
+    
+    if "location" in location_data:
+        latitude = location_data["location"]["lat"]
+        longitude = location_data["location"]["lng"]
+        city = get_city_from_coords(latitude, longitude)
+        return latitude, longitude, city
+    else:
+        return None, None, "Unknown"
+    
+def get_city_from_coords(lat, lon):
+    url = f'https://maps.googleapis.com/maps/api/geocode/json?latlng={lat},{lon}&key={key}'
+    response = requests.get(url)
     data = response.json()
-    loc = data["loc"].split(",")
-    latitude = float(loc[0])
-    longitude = float(loc[1])
-    city = data.get("city", "Unknown")
-    return latitude, longitude, city
+    
+    if 'results' in data and data['results']:
+        for result in data['results']:
+            for component in result['address_components']:
+                if 'locality' in component['types']:
+                    return component['long_name']
+    return "Unknown"
+
 
 # Automatically geolocate the connecting IP
 latitude, longitude, city = get_current_location()
-print(latitude, longitude)
+print(latitude, longitude, city)
 sun = Sun(latitude, longitude)
 
 # Function to get daily average temperature with retry mechanism
