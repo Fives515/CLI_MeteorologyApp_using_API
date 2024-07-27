@@ -65,23 +65,44 @@ print(f"City: {city}")
 # Retry mechanism for fetching temperature data
 daily_data = get_daily_temperature(latitude, longitude, start_date, end_date)
 
+#Transforms the API wind direction in degrees to directional words
 def direction (wind_direction):
-    if wind_direction == 0 or wind_direction == 360:
-        return "North"
-    elif wind_direction == 90:
-        return "East"
-    elif wind_direction == 180:
-        return "South"
-    elif wind_direction == 270:
-        return "West"
-    elif wind_direction > 0 or wind_direction < 90:
-        return "North East"
-    elif wind_direction > 90 or wind_direction < 180:
-        return "South East"
-    elif wind_direction > 180 or wind_direction < 270:
-        return "South West"
-    elif wind_direction > 270 or wind_direction < 360:
-        return "North West"
+    if wind_direction >= 305 or wind_direction <= 55:
+        if wind_direction >= 305 or wind_direction <= 325:
+            return "North West"
+        elif wind_direction > 325 or wind_direction < 350:
+            return "NNW"
+        elif wind_direction > 11 or wind_direction < 34:
+            return "NNE"
+        if wind_direction >= 35 or wind_direction <= 55:
+            return "North East"
+        else:
+            return "North"
+    elif wind_direction > 55 or wind_direction < 125:
+        if wind_direction > 55 or wind_direction < 80:
+            return "ENE"
+        elif wind_direction > 100 or wind_direction < 125:
+            return "ESE"
+        else:
+            return "East"
+    elif wind_direction >= 125 or wind_direction <= 235:
+        if wind_direction >= 215 or wind_direction <= 235:
+            return "South West"
+        elif wind_direction > 190 or wind_direction < 215:
+            return "SSW"
+        elif wind_direction > 145 or wind_direction < 170:
+            return "SSE"
+        if wind_direction >= 125 or wind_direction <= 145:
+            return "South East"
+        else:
+            return "South"
+    elif wind_direction > 305 or wind_direction < 125:
+        if wind_direction > 280 or wind_direction < 305:
+            return "WNW"
+        elif wind_direction > 235 or wind_direction < 260:
+            return "WSW"
+        else:
+            return "West"
     else:   
         return wind_direction
 
