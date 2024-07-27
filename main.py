@@ -9,14 +9,29 @@ def get_current_location():
     # Send POST request to the API
     response = requests.post(url, json={"considerIp": "true"})
     location_data = response.json()
-    
-    if "location" in location_data:
-        latitude = location_data["location"]["lat"]
-        longitude = location_data["location"]["lng"]
-        city = get_city_from_coords(latitude, longitude)
-        return latitude, longitude, city
-    else:
-        return None, None, "Unknown"
+    while True:
+        userinput = input("1. If want to enter your coordinates \n"
+                        "2. If you want to use your current location\n"
+                        "Select from the following options: ")
+        print(userinput)
+
+        if userinput == "1":
+            latitude = input("Example: 51.4359296 latitude for London \n Please enter the latitude of your chosen location: ")
+            longitude = input("Example: -0.0622592 longitude for London \n Please enter the latitude of your chosen location:")
+            city = get_city_from_coords(latitude, longitude)
+            return latitude, longitude, city
+
+        elif userinput == "2":
+        
+            if "location" in location_data:
+                latitude = location_data["location"]["lat"]
+                longitude = location_data["location"]["lng"]
+                city = get_city_from_coords(latitude, longitude)
+                return latitude, longitude, city
+            else:
+                return None, None, "Unknown"
+        else:
+            print("Wrong input, try again\n\n\n\n")
     
 def get_city_from_coords(lat, lon):
     url = f'https://maps.googleapis.com/maps/api/geocode/json?latlng={lat},{lon}&key={key}'
