@@ -16,8 +16,8 @@ def get_current_location():
         print(userinput)
 
         if userinput == "1":
-            latitude = input("Example: 51.4359296 latitude for London \n Please enter the latitude of your chosen location: ")
-            longitude = input("Example: -0.0622592 longitude for London \n Please enter the latitude of your chosen location:")
+            latitude = float(input("Example: 51.4359296 latitude for London \n Please enter the latitude of your chosen location: "))
+            longitude = float(input("Example: -0.0622592 longitude for London \n Please enter the latitude of your chosen location:"))
             city = get_city_from_coords(latitude, longitude)
             return latitude, longitude, city
 
