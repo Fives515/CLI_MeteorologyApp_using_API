@@ -21,7 +21,7 @@ def get_current_location():
                         "Select from the following options: ")
 
         if userinput == "1":
-            location= get_coordinates_from_user(input("Example: 51.4359296, -0.0622592 coordinates for London \n Please enter the latitude of your chosen location:"))
+            location= get_coordinates_from_user(input("Example: 51.4359296, -0.0622592 coordinates for London \n Please enter the coordinates of your chosen location:"))
             latitude = float(location [0])
             longitude = float(location [1])
             city = get_city_from_coords(latitude, longitude)
