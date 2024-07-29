@@ -3,6 +3,12 @@ from suntime import Sun
 from datetime import datetime, timedelta
 from api_list import this, that, key
 
+#function to seperate the coordinates into latitude and longitude
+def get_coordinates_from_user(coordinates):
+    coordinates = coordinates.split(",")
+    #return a list
+    return coordinates
+
 def get_current_location():
     url = f'https://www.googleapis.com/geolocation/v1/geolocate?key={key}'
     
@@ -13,16 +19,15 @@ def get_current_location():
         userinput = input("1. If want to enter your coordinates \n"
                         "2. If you want to use your current location\n"
                         "Select from the following options: ")
-        print(userinput)
 
         if userinput == "1":
-            latitude = float(input("Example: 51.4359296 latitude for London \n Please enter the latitude of your chosen location: "))
-            longitude = float(input("Example: -0.0622592 longitude for London \n Please enter the latitude of your chosen location:"))
+            location= get_coordinates_from_user(input("Example: 51.4359296, -0.0622592 coordinates for London \n Please enter the latitude of your chosen location:"))
+            latitude = float(location [0])
+            longitude = float(location [1])
             city = get_city_from_coords(latitude, longitude)
             return latitude, longitude, city
 
         elif userinput == "2":
-        
             if "location" in location_data:
                 latitude = location_data["location"]["lat"]
                 longitude = location_data["location"]["lng"]
