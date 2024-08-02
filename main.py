@@ -21,7 +21,13 @@ def get_current_location():
                         "Select from the following options: ")
 
         if userinput == "1":
-            location= get_coordinates_from_user(input("Example: 51.4359296, -0.0622592 coordinates for London \n Please enter the coordinates of your chosen location:"))
+            input_coordinates = input("Example: 51.4359296, -0.0622592 coordinates for London \n Please enter the coordinates of your chosen location:")
+            if input_coordinates == "":
+                checked_coordinates = "41.902082, 12.456591"
+                print("Incorrect format, using default coordinates")
+                location= get_coordinates_from_user(checked_coordinates)
+            else:
+                location= get_coordinates_from_user(input_coordinates)
             latitude = float(location [0])
             longitude = float(location [1])
             city = get_city_from_coords(latitude, longitude)
@@ -125,7 +131,8 @@ def direction (wind_direction):
             return "West"
     else:   
         return wind_direction
-
+    
+km=" km/h"
 if daily_data.get("data"):
     for day_data in daily_data["data"]:
         date = day_data.get("date")
@@ -135,13 +142,20 @@ if daily_data.get("data"):
         max_temp = day_data.get("tmax")
         min_temp = day_data.get("tmin")
         wind_gust = day_data.get("wpgt")
+        if wind_gust == None:
+            wind_gust = "None"
+        else:
+            wind_gust= str(wind_gust) + km
         wind_speed = day_data.get("wspd")
+        if wind_speed == None:
+            wind_speed = "None"
+        else:
+            wind_speed= str(wind_speed) + km
         sea_level_air_pressure = day_data.get("pres")
         time = datetime.date(date_obj)
         sunrise= sun.get_local_sunrise_time(time)
         sunset = sun.get_local_sunset_time(time)
         wind_int =direction(day_data.get ("wdir"))
-        
         #Extract the time and calculate it
         datetime_string = str(sunrise)
         time_sunrise = extract_time(datetime_string)
@@ -156,8 +170,8 @@ if daily_data.get("data"):
             print(f"Average Temperature: {avg_temp}°C")
             print(f"Minimum Temperature: {min_temp}°C")
             print(f"Maximum Temperature: {max_temp}°C")
-            print(f"Maximum wind gust: {wind_gust} km/h")
-            print(f"The wind will be coming from {wind_int} with an average wind speed: {wind_speed} km/h")
+            print(f"Maximum wind gust: {wind_gust}")
+            print(f"The wind will be coming from {wind_int} with an average wind speed: {wind_speed}")
             print(f"The sun will rise at {time_sunrise} and set at {time_sunset} which will give you {tdelta} suntime")
             print(f"Percepitation: {precipitation} mm\n")
         else:
