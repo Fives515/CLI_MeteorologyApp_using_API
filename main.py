@@ -132,7 +132,7 @@ def direction (wind_direction):
     else:   
         return wind_direction
     
-km=" km/h"
+km = " km/h"
 if daily_data.get("data"):
     for day_data in daily_data["data"]:
         date = day_data.get("date")
@@ -165,7 +165,7 @@ if daily_data.get("data"):
         tdelta = datetime.strptime(time_sunset, format) - datetime.strptime(time_sunrise,format)
         
         precipitation = day_data.get ("prcp") or 0
-        if avg_temp is not None:
+        if avg_temp is not None or city != "Unkown":
             print(f"Date: {formatted_date}")
             print(f"Average Temperature: {avg_temp}°C")
             print(f"Minimum Temperature: {min_temp}°C")
@@ -177,4 +177,4 @@ if daily_data.get("data"):
         else:
             print(f"Date: {formatted_date}, No average temperature data available")
 else:
-    print(f"No temperature data available for the date range {start_date} to {end_date}")
+    print(f"No temperature data available for this location for the date range {start_date} to {end_date}")
