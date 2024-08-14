@@ -1,7 +1,6 @@
 from location import get_current_location
 from weather import get_daily_temperature, extract_time, direction
 from sun_info import get_sun_times
-from api_list import key, this, that
 from datetime import datetime, timedelta
 from suntime import Sun
 
