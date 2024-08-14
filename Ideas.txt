@@ -1,0 +1,2 @@
+Tell the user if its very hot, hot, median, cold, very cold, freezing
+Tell the user if its humid or gonna rain

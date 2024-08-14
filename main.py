@@ -24,7 +24,9 @@ daily_data = get_daily_temperature(latitude, longitude, start_date, end_date)
 
 km = " km/h"
 if daily_data.get("data"):
+    day_count = 0
     for day_data in daily_data["data"]:
+        day_count += 1
         date = day_data.get("date")
         date_obj = datetime.strptime(date, '%Y-%m-%d')
         formatted_date = date_obj.strftime('%d/%m/%Y')
@@ -51,6 +53,7 @@ if daily_data.get("data"):
 
         precipitation = day_data.get ("prcp") or 0
         if avg_temp is not None or city != "Unknown":
+            print(f"Day: {day_count}")
             print(f"Date: {formatted_date}")
             print(f"Average Temperature: {avg_temp}°C")
             print(f"Minimum Temperature: {min_temp}°C")
