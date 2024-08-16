@@ -16,59 +16,66 @@ def extract_time(datetime_string):
     return time_part
 
 def temperature_scale(temp):
-    if temp > 40:
-        return "Extreme Heat"
-    elif temp > 30 and temp <=40:
-        return "Very Hot"
-    elif temp > 26 and temp <=30:
-        return "Hot"
-    elif temp > 22 and temp <=26:
-        return "Warm"
-    elif temp > 17 and temp <= 22:
-        return "Mild"
-    elif temp > 10 and temp <= 17:
-        return "Cool"
-    elif temp > 0 and temp <=10:
-        return "Very Cold"
+    if temp != None:
+        if temp > 40:
+            return "outside feels like it's boilling"
+        elif temp > 30 and temp <=40:
+            return "outside feels like it's very hot"
+        elif temp > 26 and temp <=30:
+            return "outside feels like it's hot"
+        elif temp > 22 and temp <=26:
+            return "outside feels like it's warm"
+        elif temp > 17 and temp <= 22:
+            return "outside feels like it's mild"
+        elif temp > 10 and temp <= 17:
+            return "outside feels like it's cool"
+        elif temp > 0 and temp <=10:
+            return "outside feels like it's very cold"
+        else:
+            return "outside feels like it's freezing"
     else:
-        return "Freezing"
+        return "Not enough information"
 
-def direction(wind_direction):
-    if wind_direction >= 305 or wind_direction <= 55:
-        if wind_direction >= 305 or wind_direction <= 325:
-            return "North West"
-        elif wind_direction > 325 or wind_direction < 350:
-            return "NNW"
-        elif wind_direction > 11 or wind_direction < 34:
-            return "NNE"
-        if wind_direction >= 35 or wind_direction <= 55:
-            return "North East"
+def get_wind_direction_description(wind_direction):
+    if wind_direction is not None:
+        if 0 <= wind_direction <= 55 or 305 <= wind_direction <= 360:
+            if 305 <= wind_direction <= 325:
+                return "The wind will be coming from North West with an average wind speed:"
+            elif 326 <= wind_direction <= 349:
+                return "The wind will be coming from NNW with an average wind speed:"
+            elif 10 <= wind_direction <= 34:
+                return "The wind will be coming from NNE with an average wind speed:"
+            elif 35 <= wind_direction <= 55:
+                return "The wind will be coming from North East with an average wind speed:"
+            else:
+                return "The wind will be coming from North with an average wind speed:"
+        elif 56 <= wind_direction <= 125:
+            if 56 <= wind_direction <= 79:
+                return "The wind will be coming from ENE with an average wind speed:"
+            elif 100 <= wind_direction <= 125:
+                return "The wind will be coming from ESE with an average wind speed:"
+            else:
+                return "The wind will be coming from East with an average wind speed:"
+        elif 126 <= wind_direction <= 235:
+            if 215 <= wind_direction <= 235:
+                return "The wind will be coming from South West with an average wind speed:"
+            elif 190 <= wind_direction <= 215:
+                return "The wind will be coming from SSW with an average wind speed:"
+            elif 146 <= wind_direction <= 169:
+                return "The wind will be coming from SSE with an average wind speed:"
+            elif 126 <= wind_direction <= 145:
+                return "The wind will be coming from South East with an average wind speed:"
+            else:
+                return "The wind will be coming from South with an average wind speed:"
+        elif 236 <= wind_direction <= 304:
+            if 280 <= wind_direction <= 304:
+                return "The wind will be coming from WNW with an average wind speed:"
+            elif 235 <= wind_direction <= 260:
+                return "The wind will be coming from WSW with an average wind speed:"
+            else:
+                return "The wind will be coming from West with an average wind speed:"
         else:
-            return "North"
-    elif wind_direction > 55 or wind_direction < 125:
-        if wind_direction > 55 or wind_direction < 80:
-            return "ENE"
-        elif wind_direction > 100 or wind_direction < 125:
-            return "ESE"
-        else:
-            return "East"
-    elif wind_direction >= 125 or wind_direction <= 235:
-        if wind_direction >= 215 or wind_direction <= 235:
-            return "South West"
-        elif wind_direction > 190 or wind_direction < 215:
-            return "SSW"
-        elif wind_direction > 145 or wind_direction < 170:
-            return "SSE"
-        if wind_direction >= 125 or wind_direction <= 145:
-            return "South East"
-        else:
-            return "South"
-    elif wind_direction > 305 or wind_direction < 125:
-        if wind_direction > 280 or wind_direction < 305:
-            return "WNW"
-        elif wind_direction > 235 or wind_direction < 260:
-            return "WSW"
-        else:
-            return "West"
-    else:   
-        return wind_direction
+            return "Invalid wind direction"
+    else:
+        return "No available information"
+

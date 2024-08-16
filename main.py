@@ -1,5 +1,5 @@
 from location import get_current_location
-from weather import get_daily_temperature, extract_time, direction, temperature_scale
+from weather import get_daily_temperature, get_wind_direction_description, temperature_scale
 from sun_info import get_sun_times
 from datetime import datetime, timedelta
 from suntime import Sun
@@ -49,17 +49,19 @@ if daily_data.get("data"):
         # Get sunrise and sunset times
         time_sunrise, time_sunset, tdelta = get_sun_times(sun, time)
         
-        wind_int = direction(day_data.get ("wdir"))
+        wind_info = get_wind_direction_description(day_data.get ("wdir"))
+        if wind_speed == None:
+            wind_speed=""
 
         precipitation = day_data.get ("prcp") or 0
         if avg_temp is not None or city != "Unknown":
             print(f"Day: {day_count}")
             print(f"Date: {formatted_date}")
-            print(f"Average Temperature: {avg_temp}°C, outside is feeling {scale_avg_temp}")
+            print(f"Average Temperature: {avg_temp}°C, {scale_avg_temp}")
             print(f"Minimum Temperature: {min_temp}°C")
             print(f"Maximum Temperature: {max_temp}°C")
             print(f"Maximum wind gust: {wind_gust}")
-            print(f"The wind will be coming from {wind_int} with an average wind speed: {wind_speed}")
+            print(wind_info, wind_speed)
             print(f"The sun will rise at {time_sunrise} and set at {time_sunset} which will give you {tdelta} suntime")
             print(f"Percepitation: {precipitation} mm\n")
         else:
