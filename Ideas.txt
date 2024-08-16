@@ -1,2 +1,11 @@
-Tell the user if its very hot, hot, median, cold, very cold, freezing
+Tell the user if its very hot, hot, median, cold, very cold, freezing   X Done
 Tell the user if its humid or gonna rain
+
+Extreme Heat = 40+
+Very Hot = 30 - 40
+Hot = 26 - 30
+Warm = 22 - 26
+Mild = 17 - 22
+Cool = 10 - 17
+Very Cold = 0 - 10
+Freezing = 0-

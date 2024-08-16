@@ -15,6 +15,24 @@ def extract_time(datetime_string):
     time_part = datetime_obj.strftime('%H:%M:%S')
     return time_part
 
+def temperature_scale(temp):
+    if temp > 40:
+        return "Extreme Heat"
+    elif temp > 30 and temp <=40:
+        return "Very Hot"
+    elif temp > 26 and temp <=30:
+        return "Hot"
+    elif temp > 22 and temp <=26:
+        return "Warm"
+    elif temp > 17 and temp <= 22:
+        return "Mild"
+    elif temp > 10 and temp <= 17:
+        return "Cool"
+    elif temp > 0 and temp <=10:
+        return "Very Cold"
+    else:
+        return "Freezing"
+
 def direction(wind_direction):
     if wind_direction >= 305 or wind_direction <= 55:
         if wind_direction >= 305 or wind_direction <= 325:

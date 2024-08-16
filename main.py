@@ -1,12 +1,11 @@
 from location import get_current_location
-from weather import get_daily_temperature, extract_time, direction
+from weather import get_daily_temperature, extract_time, direction, temperature_scale
 from sun_info import get_sun_times
 from datetime import datetime, timedelta
 from suntime import Sun
 
 # Automatically geolocate the connecting IP
 latitude, longitude, city = get_current_location()
-print(latitude, longitude, city)
 
 # Initialize Sun object
 sun = Sun(latitude, longitude)
@@ -31,6 +30,7 @@ if daily_data.get("data"):
         date_obj = datetime.strptime(date, '%Y-%m-%d')
         formatted_date = date_obj.strftime('%d/%m/%Y')
         avg_temp = day_data.get("tavg")
+        scale_avg_temp = temperature_scale(avg_temp)
         max_temp = day_data.get("tmax")
         min_temp = day_data.get("tmin")
         wind_gust = day_data.get("wpgt")
@@ -55,7 +55,7 @@ if daily_data.get("data"):
         if avg_temp is not None or city != "Unknown":
             print(f"Day: {day_count}")
             print(f"Date: {formatted_date}")
-            print(f"Average Temperature: {avg_temp}°C")
+            print(f"Average Temperature: {avg_temp}°C, outside is feeling {scale_avg_temp}")
             print(f"Minimum Temperature: {min_temp}°C")
             print(f"Maximum Temperature: {max_temp}°C")
             print(f"Maximum wind gust: {wind_gust}")
