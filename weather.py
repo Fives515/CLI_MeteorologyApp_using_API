@@ -1,21 +1,29 @@
 import requests
 from datetime import datetime
-from api_list import this, that
+from api_list import this, that, main_url, main_key
 
 def get_daily_temperature(lat, lon, start, end):
-    querystring = {"lat": lat, "lon": lon, "start": start, "end": end}
-    headers = {
-        "x-rapidapi-key": this,
+    querystring = {
+        "location": f"{lat},{lon}",  # Format the location as "lat,lon"
+        "timesteps": "1d",            # Request daily data
+        "units": "metric",            # Use metric units (optional based on your needs)
+        "startTime": start,           # Start time in ISO 8601 format (e.g., "2024-08-18T00:00:00Z")
+        "endTime": end                # End time in ISO 8601 format (e.g., "2024-08-19T00:00:00Z")
     }
-    response = requests.get(that, headers=headers, params=querystring)
+    headers = {
+        "x-rapidapi-key": main_key,  # Replace with your actual RapidAPI key
+        "x-rapidapi-host": "tomorrow-io1.p.rapidapi.com"
+    }
+    response = requests.get(main_url, headers=headers, params=querystring)
     return response.json()
+
 
 def extract_time(datetime_string):
     datetime_obj = datetime.strptime(datetime_string, '%Y-%m-%d %H:%M:%S')
     time_part = datetime_obj.strftime('%H:%M:%S')
     return time_part
 
-def temperature_scale(temp):
+def get_outside_temperature_description(temp):
     if temp != None:
         if temp > 40:
             return "outside feels like it's boilling"
