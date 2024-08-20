@@ -81,4 +81,14 @@ def get_wind_direction_description(wind_direction):
             return "Invalid wind direction"
     else:
         return "No available information"
+    
+def determine_cloud_coverage(cloud_coverage_percentage):
+    if cloud_coverage_percentage<25:
+        return "slightly clouded"
+    elif cloud_coverage_percentage >= 25 or cloud_coverage_percentage <= 50:
+        return "moderatly clouded"
+    elif cloud_coverage_percentage > 50:
+        return "cloudy"
+    else:
+        return "has no clouds"
 

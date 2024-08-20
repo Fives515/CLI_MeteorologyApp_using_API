@@ -1,5 +1,5 @@
 from location import get_current_location
-from weather import get_daily_temperature, get_wind_direction_description, get_outside_temperature_description
+from weather import get_daily_temperature, get_wind_direction_description, get_outside_temperature_description, determine_cloud_coverage
 from sun_info import get_sun_times
 from datetime import datetime, timedelta
 from suntime import Sun
@@ -64,6 +64,7 @@ if daily_data.get("timelines"):
         
         #Cloud Information
         cloud_cover = values.get("cloudCoverAvg")
+        determined_cloud_coverage = (determine_cloud_coverage(cloud_cover))
         
 
         wind_info = get_wind_direction_description(values.get("windDirectionAvg"))
@@ -80,7 +81,7 @@ if daily_data.get("timelines"):
             print(f"Maximum Temperature: {max_temp}°C")
             print(f"{wind_info} {wind_speed}")
             print(f"Maximum wind gust: {wind_gust}")
-            print(f"Cloud coverage: {cloud_cover}%")
+            print(f"The day is {determined_cloud_coverage} with an overall cloud coverage of {cloud_cover}%")
             print(f"Precipitation: {precipitation} mm")
         else:
             print(f"Date: {formatted_date}, No average temperature data available")
