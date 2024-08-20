@@ -50,7 +50,6 @@ if daily_data.get("timelines"):
 
         #Wind Information
         wind_gust = values.get("windGustAvg")
-        print(wind_gust)
         if wind_gust is None:
             wind_gust = "None"
         else:
@@ -61,14 +60,13 @@ if daily_data.get("timelines"):
             wind_speed = "None"
         else:
             wind_speed = str(wind_speed) + " km/h"
-        
+        wind_info = get_wind_direction_description(values.get("windDirectionAvg"))
+
         #Cloud Information
         cloud_cover = values.get("cloudCoverAvg")
         determined_cloud_coverage = (determine_cloud_coverage(cloud_cover))
         
-
-        wind_info = get_wind_direction_description(values.get("windDirectionAvg"))
-        
+        #Percipitation information
         precipitation = values.get("precipitationSum") or 0
         
         # Print the extracted data
@@ -82,7 +80,7 @@ if daily_data.get("timelines"):
             print(f"{wind_info} {wind_speed}")
             print(f"Maximum wind gust: {wind_gust}")
             print(f"The day is {determined_cloud_coverage} with an overall cloud coverage of {cloud_cover}%")
-            print(f"Precipitation: {precipitation} mm")
+            print(f"Precipitation: {precipitation} mm\n")
         else:
             print(f"Date: {formatted_date}, No average temperature data available")
 else:

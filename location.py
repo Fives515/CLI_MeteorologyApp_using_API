@@ -25,6 +25,7 @@ def get_current_location():
             return latitude, longitude, city
 
         elif userinput == "2":
+            print("\n\n\n")
             return data_from_current_location(location_data)
             
 

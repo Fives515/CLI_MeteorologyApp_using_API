@@ -1,6 +1,8 @@
 Tell the user if its very hot, hot, median, cold, very cold, freezing   X Done
 Tell the user if its humid or gonna rain
 
+Bugs: the API is only returning 6 days instead of 7
+
 Temp scale:
 Extreme Heat = 40+
 Very Hot = 30 - 40

@@ -1,5 +1,4 @@
 import requests
-from datetime import datetime
 from api_list import main_url, main_key
 
 def get_daily_temperature(lat, lon, start, end):
