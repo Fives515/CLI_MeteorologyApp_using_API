@@ -26,18 +26,29 @@ km = " km/h"
 if daily_data.get("timelines"):
     day_count = 0
     for day_data in daily_data["timelines"]["daily"]:
+        # Access weather values from "values" key
+        values = day_data.get("values", {})
         day_count += 1
+
         # Get the date from the interval start time
         date = day_data["time"]
         date_obj = datetime.strptime(date, '%Y-%m-%dT%H:%M:%SZ')
         formatted_date = date_obj.strftime('%d/%m/%Y')
-        
-        # Access weather values from "values" key
-        values = day_data.get("values", {})
+
+        #Extract sunrise and sunset times
+        time_sunrise = values.get("sunriseTime")
+        time_sunset = values.get("sunsetTime")
+        time = datetime.date(date_obj)
+        time_sunrise, time_sunset, tdelta = get_sun_times(time_sunrise, time_sunset)
+
+
+        #Temperature Information
         avg_temp = values.get("temperatureAvg")
         scale_avg_temp = get_outside_temperature_description(avg_temp)
         max_temp = values.get("temperatureMax")
         min_temp = values.get("temperatureMin")
+
+        #Wind Information
         wind_gust = values.get("windGustAvg")
         print(wind_gust)
         if wind_gust is None:
@@ -51,19 +62,9 @@ if daily_data.get("timelines"):
         else:
             wind_speed = str(wind_speed) + " km/h"
         
+        #Cloud Information
         cloud_cover = values.get("cloudCoverAvg")
         
-        # Extract sunrise and sunset times
-        time_sunrise = values.get("sunriseTime")
-        time_sunset = values.get("sunsetTime")
-        time = datetime.date(date_obj)
-        
-        if time_sunrise and time_sunset:
-            time_sunrise = datetime.strptime(time_sunrise, '%Y-%m-%dT%H:%M:%SZ').strftime('%H:%M')
-            time_sunset = datetime.strptime(time_sunset, '%Y-%m-%dT%H:%M:%SZ').strftime('%H:%M')
-            tdelta = datetime.strptime(time_sunset, '%H:%M') - datetime.strptime(time_sunrise, '%H:%M')
-        else:
-            time_sunrise = time_sunset = tdelta = "N/A"
 
         wind_info = get_wind_direction_description(values.get("windDirectionAvg"))
         
@@ -73,14 +74,14 @@ if daily_data.get("timelines"):
         if avg_temp is not None:
             print(f"Day: {day_count}")
             print(f"Date: {formatted_date}")
+            print(f"The sun will rise at {time_sunrise} and set at {time_sunset} which will give you {tdelta} of sunlight")
             print(f"Average Temperature: {avg_temp}°C, {scale_avg_temp}")
             print(f"Minimum Temperature: {min_temp}°C")
             print(f"Maximum Temperature: {max_temp}°C")
-            print(f"Maximum wind gust: {wind_gust}")
             print(f"{wind_info} {wind_speed}")
-            print(f"The sun will rise at {time_sunrise} and set at {time_sunset} which will give you {tdelta} of sunlight")
+            print(f"Maximum wind gust: {wind_gust}")
+            print(f"Cloud coverage: {cloud_cover}%")
             print(f"Precipitation: {precipitation} mm")
-            print(f"Cloud coverage: {cloud_cover}%\n")
         else:
             print(f"Date: {formatted_date}, No average temperature data available")
 else:

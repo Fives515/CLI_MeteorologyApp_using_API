@@ -1,6 +1,6 @@
 import requests
 from datetime import datetime
-from api_list import this, that, main_url, main_key
+from api_list import main_url, main_key
 
 def get_daily_temperature(lat, lon, start, end):
     querystring = {
@@ -17,11 +17,6 @@ def get_daily_temperature(lat, lon, start, end):
     response = requests.get(main_url, headers=headers, params=querystring)
     return response.json()
 
-
-def extract_time(datetime_string):
-    datetime_obj = datetime.strptime(datetime_string, '%Y-%m-%d %H:%M:%S')
-    time_part = datetime_obj.strftime('%H:%M:%S')
-    return time_part
 
 def get_outside_temperature_description(temp):
     if temp != None:

@@ -1,16 +1,11 @@
 from datetime import datetime
-from weather import extract_time
 
-def get_sun_times(sun, time):
-    sunrise = sun.get_local_sunrise_time(time)
-    sunset = sun.get_local_sunset_time(time)
-    
-    # Extract the time and calculate it
-    datetime_string = str(sunrise)
-    time_sunrise = extract_time(datetime_string)
-    datetime_string = str(sunset)
-    time_sunset = extract_time(datetime_string)
-    format = "%H:%M:%S"
-    tdelta = datetime.strptime(time_sunset, format) - datetime.strptime(time_sunrise, format)
-    
+def get_sun_times(time_sunrise, time_sunset):
+    if time_sunrise and time_sunset:
+        time_sunrise = datetime.strptime(time_sunrise, '%Y-%m-%dT%H:%M:%SZ').strftime('%H:%M')
+        time_sunset = datetime.strptime(time_sunset, '%Y-%m-%dT%H:%M:%SZ').strftime('%H:%M')
+        tdelta = datetime.strptime(time_sunset, '%H:%M') - datetime.strptime(time_sunrise, '%H:%M')
+    else:
+        time_sunrise = time_sunset = tdelta = "N/A"
+
     return time_sunrise, time_sunset, tdelta

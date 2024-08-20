@@ -9,7 +9,7 @@ Warm = 22 - 26
 Mild = 17 - 22
 Cool = 10 - 17
 Very Cold = 0 - 10
-Freezing = 0-
+Freezing = 0
 
 0 no rain
 0-5 hardly noticeable
