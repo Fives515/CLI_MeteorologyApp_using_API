@@ -10,7 +10,7 @@ def get_daily_temperature(lat, lon, start, end):
         "endTime": end                # End time in ISO 8601 format (e.g., "2024-08-19T00:00:00Z")
     }
     headers = {
-        "x-rapidapi-key": main_key,  # Replace with your actual RapidAPI key
+        "x-rapidapi-key": main_key,
         "x-rapidapi-host": "tomorrow-io1.p.rapidapi.com"
     }
     response = requests.get(main_url, headers=headers, params=querystring)
@@ -80,14 +80,34 @@ def get_wind_direction_description(wind_direction):
             return "Invalid wind direction"
     else:
         return "No available information"
-    
-def determine_cloud_coverage(cloud_coverage_percentage):
-    if cloud_coverage_percentage<25:
-        return "slightly clouded"
-    elif cloud_coverage_percentage >= 25 or cloud_coverage_percentage <= 50:
-        return "moderatly clouded"
-    elif cloud_coverage_percentage > 50:
-        return "cloudy"
-    else:
-        return "has no clouds"
 
+
+weatherCodes = {
+    "0": "Unknown",
+    "1000": "Clear, Sunny",
+    "1100": "Mostly Clear",
+    "1101": "Partly Cloudy",
+    "1102": "Mostly Cloudy",
+    "1001": "Cloudy",
+    "2000": "Fog",
+    "2100": "Light Fog",
+    "4000": "Drizzle",
+    "4001": "Rain",
+    "4200": "Light Rain",
+    "4201": "Heavy Rain",
+    "5000": "Snow",
+    "5001": "Flurries",
+    "5100": "Light Snow",
+    "5101": "Heavy Snow",
+    "6000": "Freezing Drizzle",
+    "6001": "Freezing Rain",
+    "6200": "Light Freezing Rain",
+    "6201": "Heavy Freezing Rain",
+    "7000": "Ice Pellets",
+    "7101": "Heavy Ice Pellets",
+    "7102": "Light Ice Pellets",
+    "8000": "Thunderstorm"
+}
+def weather_code_description(weather_code):
+    return weatherCodes.get(str(weather_code), "Code not found")
+    

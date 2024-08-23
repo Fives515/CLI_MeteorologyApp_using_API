@@ -1,5 +1,5 @@
 from location import get_current_location
-from weather import get_daily_temperature, get_wind_direction_description, get_outside_temperature_description, determine_cloud_coverage
+from weather import get_daily_temperature, get_wind_direction_description, get_outside_temperature_description, determine_cloud_coverage, weather_code_description
 from sun_info import get_sun_times
 from datetime import datetime, timedelta
 from suntime import Sun
@@ -14,7 +14,7 @@ sun = Sun(latitude, longitude)
 current_date = datetime.now()
 
 # Generate and print dates for the next 7 days with average temperatures
-end_date = (current_date + timedelta(days=6)).strftime("%Y-%m-%d")   # week range for weekly data for each day
+end_date = (current_date + timedelta(days=7)).strftime("%Y-%m-%d")   # week range for weekly data for each day
 start_date = current_date.strftime('%Y-%m-%d')
 print(f"City: {city}")
 
@@ -62,24 +62,25 @@ if daily_data.get("timelines"):
             wind_speed = str(wind_speed) + " km/h"
         wind_info = get_wind_direction_description(values.get("windDirectionAvg"))
 
-        #Cloud Information
-        cloud_cover = values.get("cloudCoverAvg")
-        determined_cloud_coverage = (determine_cloud_coverage(cloud_cover))
         
         #Percipitation information
         precipitation = values.get("precipitationSum") or 0
+        
+        #Day weather determination
+        weatherCode = values.get("weatherCodeMax")
+        DayWeather = weather_code_description(weatherCode)
         
         # Print the extracted data
         if avg_temp is not None:
             print(f"Day: {day_count}")
             print(f"Date: {formatted_date}")
+            print(f"Today's weather is {DayWeather}")
             print(f"The sun will rise at {time_sunrise} and set at {time_sunset} which will give you {tdelta} of sunlight")
             print(f"Average Temperature: {avg_temp}°C, {scale_avg_temp}")
             print(f"Minimum Temperature: {min_temp}°C")
             print(f"Maximum Temperature: {max_temp}°C")
             print(f"{wind_info} {wind_speed}")
             print(f"Maximum wind gust: {wind_gust}")
-            print(f"The day is {determined_cloud_coverage} with an overall cloud coverage of {cloud_cover}%")
             print(f"Precipitation: {precipitation} mm\n")
         else:
             print(f"Date: {formatted_date}, No average temperature data available")
