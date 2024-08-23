@@ -1,5 +1,5 @@
 from location import get_current_location
-from weather import get_daily_temperature, get_wind_direction_description, get_outside_temperature_description, determine_cloud_coverage, weather_code_description
+from weather import get_daily_temperature, get_wind_direction_description, get_outside_temperature_description, weather_code_description
 from sun_info import get_sun_times
 from datetime import datetime, timedelta
 from suntime import Sun
@@ -48,6 +48,8 @@ if daily_data.get("timelines"):
         max_temp = values.get("temperatureMax")
         min_temp = values.get("temperatureMin")
 
+        uvIndex = values.get("uvIndexMax")
+
         #Wind Information
         wind_gust = values.get("windGustAvg")
         if wind_gust is None:
@@ -76,7 +78,7 @@ if daily_data.get("timelines"):
             print(f"Date: {formatted_date}")
             print(f"Today's weather is {DayWeather}")
             print(f"The sun will rise at {time_sunrise} and set at {time_sunset} which will give you {tdelta} of sunlight")
-            print(f"Average Temperature: {avg_temp}°C, {scale_avg_temp}")
+            print(f"Average Temperature: {avg_temp}°C, {scale_avg_temp} with a UV Index of {uvIndex}")
             print(f"Minimum Temperature: {min_temp}°C")
             print(f"Maximum Temperature: {max_temp}°C")
             print(f"{wind_info} {wind_speed}")
