@@ -1,5 +1,5 @@
 import requests
-from api_list import main_url, main_key
+from api_list import that, this
 
 def get_daily_temperature(lat, lon, start, end):
     querystring = {
@@ -10,10 +10,10 @@ def get_daily_temperature(lat, lon, start, end):
         "endTime": end                # End time in ISO 8601 format (e.g., "2024-08-19T00:00:00Z")
     }
     headers = {
-        "x-rapidapi-key": main_key,
+        "x-rapidapi-this": this,
         "x-rapidapi-host": "tomorrow-io1.p.rapidapi.com"
     }
-    response = requests.get(main_url, headers=headers, params=querystring)
+    response = requests.get(that, headers=headers, params=querystring)
     return response.json()
 
 
