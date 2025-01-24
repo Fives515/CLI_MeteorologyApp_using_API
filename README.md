@@ -19,7 +19,7 @@ Run main.py with python after adding links to the API's
 ```python
 #rapidAPI details
 this= "Insert MeteostatAPI-Key here"
-that = "pointer link for daily data e.g.https://meteostat.p.rapidapi.com/point/daily"
+that = ".https://meteostat.p.rapidapi.com/point/daily" #pointer link for daily data 
 #Google API key
 key = "Insert Google API Key here"
 ```
