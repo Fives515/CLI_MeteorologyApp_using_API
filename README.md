@@ -1,4 +1,4 @@
-#Introduction
+## Introduction
 
 This is a simple project using APIs to access meteorological data and display it to users using a command line interface.
 **Meteorological data can be displayed using the public IP address or a specific coordinate**
